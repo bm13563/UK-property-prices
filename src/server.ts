@@ -27,11 +27,11 @@ const firebaseConfig = {
 admin.initializeApp(firebaseConfig);
 const db = admin.firestore();
 
-const snapshot = await db.collection('users').get();
-snapshot.forEach((doc) => {
-    // tslint:disable-next-line:no-console
-    console.log(doc.id, '=>', doc.data());
-});
+// const snapshot = await db.collection('users').get();
+// snapshot.forEach((doc) => {
+//     // tslint:disable-next-line:no-console
+//     console.log(doc.id, '=>', doc.data());
+// });
 
 
 // configure app to use bodyParser()
