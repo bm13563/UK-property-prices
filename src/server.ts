@@ -1,8 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
+import firestoreCredentials from './config/live-football-data-64a3832ce247.json';
 import * as admin from 'firebase-admin';
 import * as routes from "./routes";
+import * as init from "./utilities/serverInit";
 
 // initialize configuration
 dotenv.config();
@@ -13,26 +15,12 @@ const port = process.env.SERVER_PORT;
 
 const app = express();
 
-// config firebase for backend storage
-const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
-};
 // Initialize Firebase
-admin.initializeApp(firebaseConfig);
+const serviceAccount = firestoreCredentials as admin.ServiceAccount
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 const db = admin.firestore();
-
-// const snapshot = await db.collection('users').get();
-// snapshot.forEach((doc) => {
-//     // tslint:disable-next-line:no-console
-//     console.log(doc.id, '=>', doc.data());
-// });
-
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -44,6 +32,7 @@ routes.register( app, db );
 
 // start the express server
 app.listen( port, () => {
+    init.getMatchIds( db );
     // tslint:disable-next-line:no-console
     console.log( `server started at http://localhost:${ port }` );
 } );
