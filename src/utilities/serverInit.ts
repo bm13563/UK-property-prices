@@ -16,7 +16,7 @@ export const getMatchIds = ( db: FirebaseFirestore.Firestore ) => {
                 }
             } );
             // if we've emptied all of our old matches, we need to add todays matches
-            if ( snapshotSize === 0) {
+            if ( snapshotSize === 1) {
                 getTodaysMatches();
             }
         }
@@ -24,18 +24,24 @@ export const getMatchIds = ( db: FirebaseFirestore.Firestore ) => {
 };
 
 export const getTodaysMatches = () => {
-    const url = "https://www.bbc.com/sport/football/scores-fixtures";
+    const url = "https://www.flashscore.co.uk/";
     const AxiosInstance = axios.create();
-
+    // tslint:disable-next-line:no-console
+    console.log(1)
     // Send an async HTTP Get request to the url
-    AxiosInstance.get( url ).then(
+    AxiosInstance.get( url, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36' }
+    } ).then(
         response => {
+            // tslint:disable-next-line:no-console
+            console.log(2)
             const data = response.data;
             const $ = cheerio.load(data);
-            const competition: cheerio.Cheerio = $( '.qa-match-block h3' );
+
+            const competition: cheerio.Cheerio = $( 'event__title--name' );
             competition.each((i, elem) => {
                 // tslint:disable-next-line:no-console
-                console.log(elem)
+                console.log($(elem).text())
             })
         }
     // tslint:disable-next-line:no-console
