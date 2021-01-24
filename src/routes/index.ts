@@ -1,7 +1,7 @@
 import * as express from "express";
-import * as matches from "./matches";
+import * as pricePaid from "./pricePaid";
 
-export const register = ( app: express.Application, db: FirebaseFirestore.Firestore ) => {
+export const register = ( app: express.Application ) => {
     // get an instance of the express Router
     const router = express.Router();
 
@@ -16,7 +16,7 @@ export const register = ( app: express.Application, db: FirebaseFirestore.Firest
     app.use( '/api', router );
 
     // get all current matches
-    router.route( '/matches' ).get( ( req: any, res ) => {
-        matches.getCurrentMatches( res );
+    router.route( '/price_paid' ).get( ( req: express.Request, res: express.Response ) => {
+        pricePaid.getPricePaid( req, res );
     } )
 };
