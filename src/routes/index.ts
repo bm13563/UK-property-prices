@@ -3,16 +3,18 @@ import * as pricePaid from "./pricePaid";
 import flatCache from "flat-cache";
 
 export const register = ( app: express.Application ) => {
-    // get an instance of the express Router
-    const router = express.Router();
+    // get a router for our api, allowing us to set up middleware
+    const apiRouter = express.Router();
 
-    // middleware to use for all requests, if we want it
-    router.use( ( req: any, res, next: () => void ) => {
+    // our middleware
+    apiRouter.use( ( req: express.Request, res: express.Response, next: () => void ) => {
+        // tslint:disable-next-line:no-console
+        console.log( `${req.method} ${req.path}` );
         next();
     } );
 
-    // all of our routes will be prefixed with /api
-    app.use( '/api', router );
+    // attach our apiRouter to the api route
+    app.use( '/api', apiRouter );
 
     // set up cache for caching our requests
     const cache = flatCache.load('productsCache');
@@ -32,8 +34,7 @@ export const register = ( app: express.Application ) => {
         }
     };
 
-    // get all current matches
-    router.route( '/price_paid' ).get( flatCacheMiddleware, ( req: express.Request, res: express.Response ) => {
+    apiRouter.route( '/price_paid' ).get( flatCacheMiddleware, ( req: express.Request, res: express.Response ) => {
         pricePaid.getPricePaid( req, res );
     } )
 };
