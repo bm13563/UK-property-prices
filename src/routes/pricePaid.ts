@@ -33,14 +33,28 @@ export const getPricePaid = ( req: express.Request, res: express.Response ) => {
     const pricePaid = new PricePaid();
     // format the request url using our input arguments
     const url = pricePaid.formatRequest( argumentObject )
-
     const AxiosInstance = axios.create();
     AxiosInstance.get( url ).then(
         response => {
+
+            // build metadata for return
+            const csvString = response.data;
+            const csvLength = csvString.split(/\r\n|\r|\n/).length - 2;
+            const jsonReturn = {
+                meta: {
+                    request: url,
+                    length: csvLength,
+                    usedArguments: pricePaid.getUsedArguments(),
+                },
+                results: [] as object,
+            }
+
+            // parse data
             csv()
-            .fromString(response.data)
+            .fromString(csvString)
             .then( jsonObject => {
-                res.json( jsonObject )
+                jsonReturn.results = jsonObject;
+                res.json( jsonReturn )
             } )
         }
     // tslint:disable-next-line:no-console

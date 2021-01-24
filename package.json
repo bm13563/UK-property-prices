@@ -22,13 +22,15 @@
     "csvtojson": "^2.0.10",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "firebase-admin": "^9.4.2"
+    "firebase-admin": "^9.4.2",
+    "flat-cache": "^3.0.4"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/cheerio": "^0.22.23",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.11",
+    "@types/flat-cache": "^2.0.0",
     "@types/fs-extra": "^9.0.6",
     "@types/node": "^14.14.22",
     "@types/shelljs": "^0.8.8",
