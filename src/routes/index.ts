@@ -8,9 +8,4 @@ export const register = ( app: express.Application ) => {
     apiRouter.addBase( app, "api" );
     apiRouter.addBaseMiddleware( () => {return;} )
     apiRouter.addRouteToBase( "pricePaid", parseAndReturnData )
-
-
-    // apiRouter.route( '/pricePaid' ).get( flatCacheMiddleware, ( req: express.Request, res: express.Response ) => {
-    //     pricePaid.getPricePaid( req, res );
-    // } )
 };

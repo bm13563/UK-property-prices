@@ -1,9 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
-import * as admin from 'firebase-admin';
-import * as routes from "./routes";
-import * as init from "./utilities/serverInit";
+import { register } from "./routes";
 
 dotenv.config();
 const port = process.env.SERVER_PORT;
@@ -15,7 +13,7 @@ app.use( bodyParser.urlencoded({ extended: true }) );
 app.use( bodyParser.json() );
 
 // register our routes, pass app and db
-routes.register( app );
+register( app );
 
 // start the express server
 app.listen( port, () => {

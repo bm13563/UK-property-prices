@@ -19,7 +19,7 @@ export class Router{
         this.router.use( ( req: express.Request, res: express.Response, next: () => void ) => {
             routerCallback();
             // tslint:disable-next-line:no-console
-            console.log( `${req.method} ${req.path}` );
+            console.log( `${this.base} middleware fired on ${req.method} ${req.path}` );
             next();
         } );
     }
