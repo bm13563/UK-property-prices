@@ -2,7 +2,8 @@ import * as express from "express";
 import flatCache from "flat-cache";
 
 
-type CacheFunction = ( cacheName: string ) => ( ( req: express.Request, res: any, next: () => void ) => void );
+type IRequestsFunction = ( req: express.Request, res: express.Response ) => void;
+type ICacheFunction = ( cacheName: string ) => ( ( req: express.Request, res: any, next: () => void ) => void );
 
 
 export class Router{
@@ -15,16 +16,14 @@ export class Router{
         this.base = `/${route}`;
     }
 
-    addBaseMiddleware = ( routerCallback: () => void ) => {
+    addBaseMiddleware = ( routerCallback: IRequestsFunction ) => {
         this.router.use( ( req: express.Request, res: express.Response, next: () => void ) => {
-            routerCallback();
-            // tslint:disable-next-line:no-console
-            console.log( `${this.base} middleware fired on ${req.method} ${req.path}` );
+            routerCallback( req, res );
             next();
         } );
     }
 
-    _addCache: CacheFunction = ( cacheName: string ) => {
+    _addCache: ICacheFunction = ( cacheName: string ) => {
         flatCache.clearAll();
         const cache = flatCache.load( cacheName );
         const flatCacheMiddleware = ( req: express.Request, res: any, next: () => void ) => {
@@ -45,7 +44,7 @@ export class Router{
         return flatCacheMiddleware;
     }
 
-    addRouteToBase = ( route: string, callback: ( req: express.Request, res: express.Response ) => void ) => {
+    addRouteToBase = ( route: string, callback: IRequestsFunction ) => {
         this.endpoints.push(`${this.base}/${route}`)
         this.router.route( `/${route}` ).get( this._addCache( route ), ( req: express.Request, res: express.Response ) => {
             callback( req, res );

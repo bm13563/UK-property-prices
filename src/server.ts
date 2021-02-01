@@ -4,10 +4,9 @@ import bodyParser from "body-parser";
 import { register } from "./routes";
 
 dotenv.config();
-const port = process.env.SERVER_PORT;
+const port = process.env.PORT;
 const app = express();
 
-// configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use( bodyParser.urlencoded({ extended: true }) );
 app.use( bodyParser.json() );
