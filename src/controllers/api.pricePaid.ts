@@ -29,32 +29,36 @@ interface IPricePaidObject extends IObjectKeys {
 
 export const parseAndReturnData = ( req: express.Request, res: express.Response ) => {
     const inputArguments = _formatArguments( req )
+    // tslint:disable-next-line:no-console
+    console.log( inputArguments )
     const argumentMap = _generateArgumentMap()
     const defaultArguments = _generateDefaultArguments();
     const requestUrl = _formatRequestUrl( inputArguments, argumentMap, defaultArguments );
+    // tslint:disable-next-line:no-console
+    console.log( requestUrl )
     _fetchResults( requestUrl, res )
 }
 
 export const _formatArguments = ( req: express.Request ) => {
     return {
-        buildingName: req.query.buildingName,
-        street: req.query.street,
-        town: req.query.town,
-        postcode: req.query.postcode,
-        detached: req.query.detached,
-        semiDetached: req.query.semiDetached,
-        terraced: req.query.terraced,
-        flat: req.query.flat,
-        other: req.query.other,
-        newBuild: req.query.newBuild,
-        notNewBuild: req.query.notNewBuild,
-        freehold: req.query.freehold,
-        leasehold: req.query.leasehold,
-        minPrice: req.query.minPrice,
-        maxPrice: req.query.maxPrice,
-        dateFrom: req.query.dateFrom,
-        dateTo: req.query.dateTo,
-        perPage: req.query.perPage,
+        buildingName: `${req.query.buildingName}` || "undefined",
+        street: `${req.query.street}` || "undefined",
+        town: `${req.query.town}` || "undefined",
+        postcode: `${req.query.postcode}` || "undefined",
+        detached: `${req.query.detached}` || "undefined",
+        semiDetached: `${req.query.semiDetached}` || "undefined",
+        terraced: `${req.query.terraced}` || "undefined",
+        flat: `${req.query.flat}` || "undefined",
+        other: `${req.query.other}` || "undefined",
+        newBuild: `${req.query.newBuild}` || "undefined",
+        notNewBuild: `${req.query.notNewBuild}` || "undefined",
+        freehold: `${req.query.freehold}` || "undefined",
+        leasehold: `${req.query.leasehold}` || "undefined",
+        minPrice: `${req.query.minPrice}` || "undefined",
+        maxPrice: `${req.query.maxPrice}` || "undefined",
+        dateFrom: `${req.query.dateFrom}` || "undefined",
+        dateTo: `${req.query.dateTo}` || "undefined",
+        perPage: `${req.query.perPage}` || "undefined",
     }
 }
 
@@ -104,12 +108,12 @@ export const _generateDefaultArguments = () => {
     }
 }
 
-export const _formatRequestUrl = ( inputArguments: any, argumentMap: IPricePaidObject, defaultArguments: IPricePaidObject ) => {
+export const _formatRequestUrl = ( inputArguments: IPricePaidObject, argumentMap: IPricePaidObject, defaultArguments: IPricePaidObject ) => {
     let baseUrl = "https://landregistry.data.gov.uk/app/ppd/ppd_data.csv?header=true";
         // loop through our arguments dictionary and map the names of the arguments
         for ( const key in inputArguments ) {
             // check if the argument is undefined
-            if ( inputArguments[key] === undefined ) {
+            if ( inputArguments[key] === "undefined" ) {
                 // if so, check if there is a default argument
                 if ( defaultArguments[key] !== "" ) {
                     // if there is, add it to the base url
