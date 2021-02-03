@@ -6,6 +6,6 @@ A REST API that exposes the Land Registry Price paid data found on the Land Regi
 
 (or better, if you're good at that sort of thing).
 
-Currently, the only working endpoint is https://uk-property-price-api.herokuapp.com/api/pricePaid. An example request is http://localhost:8000/api/pricePaid?postcode=N10&perPage=12&dateFrom=2020-01-01. I hope to add documentation and further endpoints soon.
+Currently, the only working endpoint is https://uk-property-price-api.herokuapp.com/api/pricePaid. An example request is https://uk-property-price-api.herokuapp.com/api/pricePaid?postcode=N10&perPage=12&dateFrom=2020-01-01. I hope to add documentation and further endpoints soon.
 
 Please note that I'm hosting the API on free heroku dynos - so the first request might take a while.
