@@ -49,7 +49,7 @@ describe('_generateArgumentMap api.pricePaid', () => {
 });
 
 describe('_generateDefaultArguments api.pricePaid', () => {
-    it('Argument map is correct', () => {
+    it('Default arguments are correct', () => {
         expect( _generateDefaultArguments() ).toEqual( defaultArguments );
     });
 });
@@ -75,17 +75,17 @@ describe('_formatRequestUrl api.pricePaid', () => {
         dateTo: "undefined",
         perPage: "undefined",
     }
-    it('Argument map is correct', () => {
+    it('No inputs is correct', () => {
         expect( _formatRequestUrl( inputArguments, argumentMap, defaultArguments ) ).toEqual( "https://landregistry.data.gov.uk/app/ppd/ppd_data.csv?header=true&ptype%5B%5D=lrcommon%3Adetached&ptype%5B%5D=lrcommon%3Asemi-detached&ptype%5B%5D=lrcommon%3Aterraced&ptype%5B%5D=lrcommon%3Aflat-maisonette&ptype%5B%5D=lrcommon%3AotherPropertyType&nb%5B%5D=true&nb%5B%5D=false&et%5B%5D=lrcommon%3Afreehold&et%5B%5D=lrcommon%3Aleasehold&limit=100" );
     });
 });
 
 describe('_formatRequestUrl api.pricePaid', () => {
     const inputArguments = {
-        buildingName: "",
-        street: "",
-        town: "",
-        postcode: "",
+        buildingName: "undefined",
+        street: "undefined",
+        town: "undefined",
+        postcode: "undefined",
         detached: "detached",
         semiDetached: "semi-detached",
         terraced: "terraced",
@@ -95,13 +95,39 @@ describe('_formatRequestUrl api.pricePaid', () => {
         notNewBuild: "false",
         freehold: "freehold",
         leasehold: "leasehold",
-        minPrice: "",
-        maxPrice: "",
-        dateFrom: "",
-        dateTo: "",
+        minPrice: "undefined",
+        maxPrice: "undefined",
+        dateFrom: "undefined",
+        dateTo: "undefined",
         perPage: "100",
     }
-    it('Argument map is correct', () => {
-        expect( _formatRequestUrl( inputArguments, argumentMap, defaultArguments ) ).toEqual( "https://landregistry.data.gov.uk/app/ppd/ppd_data.csv?header=true&paon=&street=&town=&postcode=&ptype%5B%5D=lrcommon%3Adetached&ptype%5B%5D=lrcommon%3Asemi-detached&ptype%5B%5D=lrcommon%3Aterraced&ptype%5B%5D=lrcommon%3Aflat-maisonette&ptype%5B%5D=lrcommon%3AotherPropertyType&nb%5B%5D=true&nb%5B%5D=false&et%5B%5D=lrcommon%3Afreehold&et%5B%5D=lrcommon%3Aleasehold&min_price=&max_price=&min_date=&max_date=&limit=100" );
+    it('Default inputs are correct', () => {
+        expect( _formatRequestUrl( inputArguments, argumentMap, defaultArguments ) ).toEqual( "https://landregistry.data.gov.uk/app/ppd/ppd_data.csv?header=true&ptype%5B%5D=lrcommon%3Adetached&ptype%5B%5D=lrcommon%3Asemi-detached&ptype%5B%5D=lrcommon%3Aterraced&ptype%5B%5D=lrcommon%3Aflat-maisonette&ptype%5B%5D=lrcommon%3AotherPropertyType&nb%5B%5D=true&nb%5B%5D=false&et%5B%5D=lrcommon%3Afreehold&et%5B%5D=lrcommon%3Aleasehold&limit=100" );
+    });
+});
+
+describe('_formatRequestUrl api.pricePaid', () => {
+    const inputArguments = {
+        buildingName: "undefined",
+        street: "undefined",
+        town: "undefined",
+        postcode: "N10",
+        detached: "undefined",
+        semiDetached: "undefined",
+        terraced: "undefined",
+        flat: "undefined",
+        other: "undefined",
+        newBuild: "undefined",
+        notNewBuild: "undefined",
+        freehold: "undefined",
+        leasehold: "undefined",
+        minPrice: "undefined",
+        maxPrice: "undefined",
+        dateFrom: "2020-01-01",
+        dateTo: "undefined",
+        perPage: "1025",
+      }
+    it('postcode, dateFrom, perPage are correct', () => {
+        expect( _formatRequestUrl( inputArguments, argumentMap, defaultArguments ) ).toEqual( "https://landregistry.data.gov.uk/app/ppd/ppd_data.csv?header=true&postcode=N10&ptype%5B%5D=lrcommon%3Adetached&ptype%5B%5D=lrcommon%3Asemi-detached&ptype%5B%5D=lrcommon%3Aterraced&ptype%5B%5D=lrcommon%3Aflat-maisonette&ptype%5B%5D=lrcommon%3AotherPropertyType&nb%5B%5D=true&nb%5B%5D=false&et%5B%5D=lrcommon%3Afreehold&et%5B%5D=lrcommon%3Aleasehold&min_date=2020-01-01&limit=1025" );
     });
 });
